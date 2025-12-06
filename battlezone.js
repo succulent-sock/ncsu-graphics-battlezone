@@ -7,6 +7,7 @@ let obstacles = [];
 let mountainPeaks = [];
 let shootSound;
 let hitSound;
+let radarSound;
 let gracePeriod = true;
 // player attributes
 const player = {
@@ -18,6 +19,7 @@ const player = {
     invulnerability: 0
 };
 let crackTimer = 0;
+let radarTimer = 0;
 // enemy attributes
 const enemy = {
     size: 1.0,
@@ -459,6 +461,15 @@ function playerMovement(dt) {
 }
 
 function update(dt, updated) {
+
+    // radar sound
+    radarTimer += dt;
+    if (radarTimer >= 3.0) {
+        radarTimer = 0;
+        if (radarSound) {
+            radarSound.play();
+        }
+    }
 
     /* player updates */
     if (crackTimer > 0) {
@@ -987,8 +998,9 @@ function main() {
     setupShaders(); // setup the webGL shaders
 
     /** EXTRA CREDIT */
-    shootSound = new Audio("8-Bit Laser Video Game SFX.m4a")
-    hitSound = new Audio("Glass Cracking SFX.m4a")
+    shootSound = new Audio("8-Bit Laser Video Game SFX.m4a");
+    hitSound = new Audio("Glass Cracking SFX.m4a");
+    radarSound = new Audio("Radar SFX.m4a");
 
     if (!inputData) {
         console.log("invalid JSON");
